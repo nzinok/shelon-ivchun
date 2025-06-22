@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>התשלום הושלם!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* אנימציה להופעת החלונית */
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* עיצוב הרקע של כל הדף */
+        body {
+            font-family: 'Rubik', sans-serif;
+            margin: 0;
+            /* שימוש בצבע רקע אחיד וכהה כדי ליצור אפקט של חלונית קופצת */
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* עיצוב החלונית עצמה */
+        .modal-container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(50, 50, 93, 0.15), 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+            border: 1px solid #e6e9ee;
+            /* הפעלת האנימציה */
+            animation: fadeInModal 0.6s ease-out forwards;
+        }
+        
+        /* עיצוב אייקון ה-V */
+        .icon-success {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px auto;
+        }
+
+        .icon-success .circle {
+            stroke-dasharray: 264;
+            stroke-dashoffset: 264;
+            animation: drawCircle 0.8s ease-out forwards;
+        }
+        
+        .icon-success .checkmark {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: drawCheckmark 0.4s 0.5s ease-out forwards;
+        }
+
+        @keyframes drawCircle {
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes drawCheckmark {
+            to { stroke-dashoffset: 0; }
+        }
+
+
+        /* כותרת ראשית */
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 15px;
+        }
+
+        /* טקסט ההודעה */
+        p {
+            font-size: 1.1rem;
+            color: #64748b;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        /* עיצוב מיוחד לספירה לאחור */
+        #countdown {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #435ebe;
+            background-color: #f0f4ff;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+        
+        /* לינק למקרה שההעברה האוטומטית נכשלת */
+        .fallback-link {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        .fallback-link a {
+            color: #435ebe;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="modal-container">
+        <svg class="icon-success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <circle class="circle" cx="50" cy="50" r="42" fill="none" stroke="#27ae60" stroke-width="4"/>
+            <path class="checkmark" fill="none" stroke="#27ae60" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M34,50 l12,12 l20,-20"/>
+        </svg>
+
+        <h1>התשלום הושלם בהצלחה!</h1>
+        <p>תודה! אנו מעבירים אותך אל שאלון האבחון להתחלת התהליך.</p>
+        <p>
+            ההעברה תתבצע בעוד 
+            <span id="countdown">5</span> 
+            שניות...
+        </p>
+        <p class="fallback-link">
+            אם ההעברה לא התבצעה, <a href="https://nzinok.github.io/shelon-ivchun/">לחץ כאן למעבר ידני</a>.
+        </p>
+    </div>
+
+    <script>
+        (function() {
+            // הכתובת של השאלון שלך
+            const questionnaireUrl = 'https://nzinok.github.io/shelon-ivchun/';
+
+            // הגדרת משתנים
+            let secondsLeft = 5;
+            const countdownElement = document.getElementById('countdown');
+
+            // פונקציה שתפעל כל שנייה
+            const timerInterval = setInterval(() => {
+                // הורדת שניה אחת מהמונה
+                secondsLeft--;
+
+                // עדכון המספר שמוצג על המסך
+                countdownElement.textContent = secondsLeft;
+
+                // בדיקה אם הספירה הסתיימה
+                if (secondsLeft <= 0) {
+                    // עצירת הטיימר
+                    clearInterval(timerInterval);
+                    // ביצוע ההעברה לשאלון
+                    window.location.href = questionnaireUrl;
+                }
+            }, 1000); // 1000 מילישניות = 1 שנייה
+        })();
+    </script>
+
+</body>
+</html>
